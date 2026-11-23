@@ -1,8 +1,8 @@
 ### Hi, I'm Kishan
 
-Full stack developer in Toronto. I build the systems that quietly keep a business
-running: payroll, ERP, and the integrations in between. Most of my work is in
-C# / .NET, Python, React and TypeScript, on top of SQL Server and Postgres.
+Full stack developer in Toronto. I build the systems a business depends on, and
+keep them running. Most of my work is in C# / .NET, Python, React and
+TypeScript, on top of SQL Server and Postgres.
 
 **[kishandoshi.me](https://kishandoshi.me)** has the longer version, plus a puzzle and some pizza.
 

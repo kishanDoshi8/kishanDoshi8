@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { Dice } from "./components/Dice";
+import { Disclosure } from "./components/Disclosure";
 import { DotPortrait } from "./components/DotPortrait";
 import { LightsOut } from "./components/LightsOut";
 import { Pizza } from "./components/Pizza";
@@ -10,8 +12,8 @@ import { crow, education, intro, jobs, links, now, problems, toolbox } from "./c
 function Section({ id, title, note, children }: { id: string; title: string; note?: string; children: ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="grid gap-6 md:grid-cols-[15rem_1fr] md:gap-10">
-      <div>
-        <h2 id={`${id}-title`} className="font-dot text-[1.75rem] leading-tight font-extrabold md:sticky md:top-8">
+      <div className="md:sticky md:top-8 md:self-start">
+        <h2 id={`${id}-title`} className="font-dot text-[1.75rem] leading-tight font-extrabold">
           {title}
         </h2>
         {note && <p className="mt-2 text-sm text-dim">{note}</p>}
@@ -109,7 +111,10 @@ export function App() {
                   {p}
                 </p>
               ))}
-              <p className="text-sm text-dim">{crow.stack.join(", ")}</p>
+              <Disclosure label="How it's built">
+                <p className="max-w-[58ch] leading-relaxed text-fg/85">{crow.technical}</p>
+                <p className="mt-3 text-sm text-dim">{crow.stack.join(", ")}</p>
+              </Disclosure>
               <p className="mt-auto flex flex-wrap gap-x-6 gap-y-2 pt-2">
                 <ExternalLink href={links.crow}>Play Crow</ExternalLink>
                 <ExternalLink href={links.crowCode}>Read the code</ExternalLink>
@@ -150,11 +155,7 @@ export function App() {
                   the table, and Crow is the same idea for the group chat. I'd rather play sport than watch it, and when
                   I do watch, I want company.
                 </p>
-                <p className="font-dot text-[clamp(2.25rem,6vw,3.5rem)] leading-none font-extrabold md:text-right" aria-label="Playing beats watching, 3 to 1">
-                  <span>Play 3</span>
-                  <span className="text-dim"> : </span>
-                  <span className="text-dim">1 Watch</span>
-                </p>
+                <Dice />
               </div>
             </Tile>
           </div>
@@ -169,7 +170,7 @@ export function App() {
             <ol className="flex flex-col">
               {jobs.map((job) => (
                 <li key={job.company} className="grid gap-1 border-t border-line py-5 md:grid-cols-[10rem_1fr] md:gap-6">
-                  <span className="font-dot text-dim">{job.years}</span>
+                  <span className="font-dot text-lg font-extrabold text-fg/80">{job.years}</span>
                   <div>
                     <p className="text-lg">
                       {job.company}
@@ -184,7 +185,7 @@ export function App() {
                 </li>
               ))}
               <li className="grid gap-1 border-t border-b border-line py-5 md:grid-cols-[10rem_1fr] md:gap-6">
-                <span className="font-dot text-dim">2017 to 2019</span>
+                <span className="font-dot text-lg font-extrabold text-fg/80">2017 – 2019</span>
                 <div>
                   <p className="text-lg">School</p>
                   {education.map((e) => (
@@ -227,7 +228,7 @@ export function App() {
       </main>
 
       <footer className="border-t border-line py-8 text-sm text-dim">
-        <p>Built by hand with React and Motion. Served by nginx from a small droplet. No cookies, no tracking.</p>
+        <p>Built by hand with React and Motion. No cookies, no tracking.</p>
       </footer>
     </div>
   );
