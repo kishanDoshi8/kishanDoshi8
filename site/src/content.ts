@@ -10,7 +10,7 @@ export const links = {
 
 export const intro = {
   name: "Kishan Doshi",
-  lead: "I'm a full stack developer in Toronto. I build the systems that quietly keep a business running: payroll, ERP, and the integrations in between.",
+  lead: "I'm a full stack developer in Toronto. I build the systems a business depends on, and keep them running.",
   aside: "Outside work, I'm usually the one setting up game night.",
   status: "Looking for a senior developer role in Toronto",
 };
@@ -70,10 +70,13 @@ export const now = {
 export const crow = {
   title: "Crow",
   body: [
-    "A prediction game I built for my friends. Someone asks a question, everyone makes a call before the deadline, and Crow keeps score. About 15 of us play it on Premier League, Champions League, IPL and World Cup matches.",
-    "Every game rule lives in Postgres, behind row-level security and RPC functions, so there's no API server to look after. Fixtures and results sync on a schedule, and reminders arrive as push notifications. GitHub Actions deploys it to a DigitalOcean droplet, the same one serving this page.",
+    "A prediction game I built for my friends. Someone asks a question, everyone makes a call before the deadline, and Crow keeps score. About 15 of us play it every week on Premier League, Champions League, IPL and World Cup matches.",
+    "I built all of it on my own, from the first sketch to the server it runs on. It fills in fixtures and results by itself, reminds everyone before picks close, and works like an app once you add it to your phone.",
   ],
-  stack: ["React", "TypeScript", "Supabase", "Postgres", "PWA", "nginx"],
+  // Shown only when someone opens "How it's built".
+  technical:
+    "Every game rule lives in Postgres, behind row-level security and RPC functions, so the app talks to the database directly and there's no API server to look after. Scheduled jobs sync fixtures and live results within the data provider's rate limit, and send reminders as Web Push notifications. GitHub Actions tests and deploys it to a DigitalOcean server.",
+  stack: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "nginx", "GitHub Actions"],
 };
 
 export type Job = {
@@ -85,19 +88,19 @@ export type Job = {
 
 export const jobs: Job[] = [
   {
-    years: "2025 to now",
+    years: "2025 – now",
     company: "Red Dot Distribution",
     place: "Dar es Salaam",
     roles: ["Team Lead, since Jun 2026", "Senior Software Engineer, Aug 2025 to Jun 2026"],
   },
   {
-    years: "2021 to 2024",
+    years: "2021 – 2024",
     company: "GreenSlate",
     place: "Toronto",
     roles: ["Full Stack Engineer II, Aug 2022 to Oct 2024", "Full Stack Engineer, Jun 2021 to Aug 2022"],
   },
   {
-    years: "2021 to 2022",
+    years: "2021 – 2022",
     company: "University of Toronto",
     place: "Toronto",
     roles: ["Teaching Assistant, Full Stack Web Development Bootcamp"],

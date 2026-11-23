@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Problem } from "../content";
 
 // A 3x3 dot glyph: a plus when closed, a minus when open.
-function Toggle({ open }: { open: boolean }) {
+export function DotToggle({ open }: { open: boolean }) {
   const reduce = useReducedMotion();
   return (
     <span aria-hidden className="grid size-5 shrink-0 grid-cols-3 gap-[3px]">
@@ -49,7 +49,7 @@ function Row({ problem }: { problem: Problem }) {
             <span className="mt-1 block text-sm text-dim">{problem.where}</span>
           </span>
           <span className="pt-1.5">
-            <Toggle open={open} />
+            <DotToggle open={open} />
           </span>
         </button>
       </h3>
