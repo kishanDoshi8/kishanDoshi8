@@ -18,12 +18,12 @@ npm run preview   # serves dist/ locally
 | --- | --- |
 | `src/content.ts` | Every piece of copy on the page. Edit text here. |
 | `src/App.tsx` | Page layout and sections |
-| `src/components/DotPortrait.tsx` | The dot-matrix portrait (canvas). Hover or tap to swap frames. |
+| `src/components/DotPortrait.tsx` | The dot-matrix portrait (canvas). Dots move aside for the pointer; click or tap to wink. |
 | `src/components/LightsOut.tsx` | The 5x5 lights-out puzzle |
 | `src/components/Pizza.tsx` | The pizza you can eat one slice at a time |
 | `src/data/portrait.ts` | Generated dot data for the portrait |
 | `src/index.css` | Theme tokens: colours, fonts, radius |
-| `scripts/portrait-dots.py` | Turns two cut-out photos into `portrait.ts` data |
+| `scripts/portrait-dots.py` | Turns a cut-out photo into `portrait.ts` data |
 
 ### Design rules
 
@@ -37,17 +37,18 @@ npm run preview   # serves dist/ locally
 
 ### Regenerating the portrait
 
-The photos themselves aren't committed. To change the portrait, cut out the
-backgrounds first (for example with `pip install rembg`), save them as
-`cut1.png` (resting) and `cut2.png` (smiling), then run:
+The photo itself isn't committed. To change the portrait, cut out the
+background first (for example with `pip install rembg`), save it as `cut.png`,
+then run:
 
 ```bash
-python3 scripts/portrait-dots.py path/to/folder-with-cutouts
+python3 scripts/portrait-dots.py path/to/folder-with-cut-png
 ```
 
-This writes `portrait.json` and preview PNGs into that folder. Copy the JSON
-into `src/data/portrait.ts`. The crop boxes at the top of the script line up
-the two faces.
+This writes `portrait.json` and two preview PNGs (the face, and the face
+winking) into that folder. Copy the JSON into `src/data/portrait.ts`.
+`CROP` frames the head and shoulders, and `WINK` lists the dots that close one
+eye. Both depend on the photo, so check the previews after changing either.
 
 ## Deploy to the droplet
 
