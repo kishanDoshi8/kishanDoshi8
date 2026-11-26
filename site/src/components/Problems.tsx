@@ -42,11 +42,19 @@ function Row({ problem }: { problem: Problem }) {
           onClick={() => setOpen((o) => !o)}
           className="group flex w-full cursor-pointer items-start gap-5 py-5 text-left"
         >
-          <span className="flex-1">
-            <span className="block text-lg leading-snug text-fg transition-colors group-hover:text-fg/80 md:text-xl">
-              {problem.title}
+          <span className="grid flex-1 gap-x-6 gap-y-2 md:grid-cols-[1fr_auto]">
+            <span>
+              <span className="block text-lg leading-snug text-fg transition-colors group-hover:text-fg/80 md:text-xl">
+                {problem.title}
+              </span>
+              <span className="mt-1 block text-sm text-dim">
+                {problem.where}, {problem.when}
+              </span>
             </span>
-            <span className="mt-1 block text-sm text-dim">{problem.where}</span>
+            {/* The outcome sits outside the fold, so a skim still gets it. */}
+            <span className="font-dot text-lg leading-snug font-extrabold text-fg md:pt-0.5 md:text-right">
+              {problem.impact}
+            </span>
           </span>
           <span className="pt-1.5">
             <DotToggle open={open} />
@@ -64,10 +72,21 @@ function Row({ problem }: { problem: Problem }) {
             transition={{ duration: reduce ? 0 : 0.28, ease: [0.3, 0, 0.2, 1] }}
             className="overflow-hidden"
           >
-            <div className="max-w-[62ch] pb-6">
-              <p className="leading-relaxed text-fg/85">{problem.body}</p>
-              <p className="mt-3 text-sm text-dim">{problem.stack.join(", ")}</p>
-            </div>
+            <dl className="grid max-w-[66ch] gap-x-6 gap-y-3 pb-6 sm:grid-cols-[6.5rem_1fr]">
+              {(
+                [
+                  ["Problem", problem.problem],
+                  ["Approach", problem.approach],
+                  ["Result", problem.result],
+                  ["Stack", problem.stack.join(", ")],
+                ] as const
+              ).map(([label, text]) => (
+                <div key={label} className="contents">
+                  <dt className="text-sm text-dim sm:pt-0.5">{label}</dt>
+                  <dd className={label === "Stack" ? "text-sm text-dim" : "leading-relaxed text-fg/85"}>{text}</dd>
+                </div>
+              ))}
+            </dl>
           </motion.div>
         )}
       </AnimatePresence>

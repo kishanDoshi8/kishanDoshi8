@@ -17,46 +17,98 @@ export const intro = {
 
 export type Problem = {
   title: string;
+  // The outcome, shown without opening the row.
+  impact: string;
   where: string;
-  body: string;
+  when: string;
+  problem: string;
+  approach: string;
+  result: string;
   stack: string[];
 };
 
 export const problems: Problem[] = [
   {
-    title: "An API that had to be restarted five times a day at month-end",
+    title: "Automated Microsoft licence order-to-invoice",
+    impact: "Days → under an hour",
     where: "Red Dot Distribution",
-    body: "Our Odoo-to-SAP posting API fell over every month-end under load, and retries sometimes posted the same entry twice. I put a throttled, Redis-backed queue in front of it, with idempotency keys so a retry can never post twice. It hasn't needed a restart since.",
-    stack: ["C#", "Redis", "SAP SDK", "IIS"],
+    when: "2025 – now",
+    problem:
+      "Orders for Microsoft CSP licences moved through credit checks, pro forma invoices, purchase orders, goods receipts, accruals and customer invoices by hand, across two systems.",
+    approach:
+      "Designed and built the company's largest integration to date, between Odoo and AppXite, using webhooks and REST APIs. It keeps products, resellers, end customers and tenants in sync, and applies every subscription change (upgrade, downgrade, renewal, cancellation) according to policy, with logging and automatic retries.",
+    result: "Order-to-invoice processing went from days to under an hour.",
+    stack: ["Python", "Odoo", "Webhooks", "REST APIs"],
   },
   {
-    title: "Licence orders that took days to turn into invoices",
+    title: "Stabilised the Odoo-to-SAP posting API under month-end load",
+    impact: "5+ restarts a day → 0",
     where: "Red Dot Distribution",
-    body: "I connected Odoo to AppXite, the platform we use to sell Microsoft licences. An order now moves through credit checks, purchase orders, goods receipts and invoicing on its own, and renewals, upgrades and cancellations sync back. What used to take days takes under an hour.",
-    stack: ["Python", "Odoo", "Webhooks", "REST"],
+    when: "2025 – now",
+    problem:
+      "Month-end volume crashed the posting API, forcing more than five restarts a day. Retries after a crash could post the same entry twice and corrupt customer balances.",
+    approach:
+      "Put a semaphore-throttled, Redis-backed queue in front of SAP, with idempotency keys so every request can be retried safely.",
+    result: "The API no longer needs restarts, and duplicate postings are prevented by design.",
+    stack: ["C#", "SAP SDK", "Redis", "IIS"],
   },
   {
-    title: "Tax returns typed into four government portals by hand",
+    title: "Direct tax reporting to four revenue authorities",
+    impact: "4 countries, 1 click",
     where: "Red Dot Distribution",
-    body: "One Odoo module now reports sales and purchase tax straight to the revenue authorities in Kenya, Tanzania, Uganda and Zambia. Finance clicks once, invoices come back with the authority's number and QR code, and retries are safe because nothing gets filed twice.",
-    stack: ["Python", "Odoo", "REST", "Audit logging"],
+    when: "2025 – now",
+    problem:
+      "Sales and purchase tax for Kenya, Tanzania, Uganda and Zambia was typed into each authority's portal by hand or posted through legacy SAP.",
+    approach:
+      "Built an Odoo module that submits to the KRA, TRA, URA and ZRA through their APIs, with idempotent retries and an audit log.",
+    result:
+      "Finance submits with one click, and invoices carry the authority's invoice number and QR code as required.",
+    stack: ["Python", "Odoo", "REST APIs"],
   },
   {
-    title: "Fixing a payroll after it's already been paid",
+    title: "Rebuilt CI/CD for an ERP used in 10 countries",
+    impact: "Gated releases, 3 environments",
+    where: "Red Dot Distribution",
+    when: "2025 – now",
+    problem:
+      "A growing team needed deployments across dev, UAT and production to be repeatable and safe to roll back.",
+    approach:
+      "Set up branch protection, lint and test gates, pre-deploy rehearsals, upgrades of only the Odoo modules that changed, targeted container restarts, nightly backups, pre-deploy snapshots, and automated release and back-merge workflows.",
+    result: "Every release follows one gated, rehearsed path, with a snapshot to roll back to.",
+    stack: ["GitHub Actions", "Docker", "Odoo", "PostgreSQL"],
+  },
+  {
+    title: "Multi-state payroll tax, calculated and allocated automatically",
+    impact: "Hours a week → minutes",
     where: "GreenSlate",
-    body: "Timesheets change after a pay period closes. I built the processing that applies those corrections: it recalculates gross-to-net pay, taxes, fringes and union rules, then writes the adjustment lines. I also worked on withholding tax for all 50 US states.",
-    stack: ["C#", ".NET", "SQL Server", "CQRS"],
+    when: "2021 – 2024",
+    problem:
+      "For people working across several productions, withholding tax had to be split by gross income, and payroll admins did it by hand every week.",
+    approach:
+      "Implemented withholding tax for all 50 US states (live in the 20+ the company operated in), automated the allocation, and filed with state agencies through their APIs. Also built retroactive timesheet processing that recalculates gross-to-net pay, taxes, fringes and union rules after a payroll is committed.",
+    result: "Allocation that took admins several hours a week now runs in minutes.",
+    stack: ["C#", ".NET", "SQL Server", "CQRS", "Event sourcing"],
   },
   {
-    title: "Pages that took too long to load",
+    title: "Data access migration from Entity Framework to Dapper",
+    impact: "About 3x faster",
     where: "GreenSlate",
-    body: "We moved our data access from Entity Framework to Dapper and rewrote the slow queries by hand. Requests and page loads got about three times faster.",
-    stack: ["C#", "Dapper", "SQL"],
+    when: "2021 – 2024",
+    problem: "Key requests and page loads in the payroll product were slow.",
+    approach:
+      "Migrated the data access layer to Dapper and hand-tuned the SQL behind the slowest requests.",
+    result: "Requests and page loads became roughly three times faster.",
+    stack: ["C#", "Dapper", "SQL Server"],
   },
   {
-    title: "A day and a half without internet, across ten countries",
+    title: "Kept the business running through an ISP outage",
+    impact: "10 countries, 1.5 days",
     where: "Red Dot Distribution",
-    body: "An ISP outage cut every office off from our ERP. My networking courses at George Brown finally earned their keep: SSH port forwarding gave VPN-connected machines a way through to the Odoo server, so the most urgent work kept moving.",
+    when: "2025 – now",
+    problem: "An ISP outage cut off access to the ERP in all 10 countries for a day and a half.",
+    approach:
+      "Drew on my networking background to route VPN-connected office machines to the Odoo server through SSH port forwarding.",
+    result: "Critical operations kept running until the connection was restored.",
     stack: ["SSH", "Networking", "Linux"],
   },
 ];
@@ -69,14 +121,16 @@ export const now = {
 
 export const crow = {
   title: "Crow",
+  // Short facts shown above the description.
+  facts: ["Live at playcrow.app", "About 15 weekly players", "Built solo, end to end"],
   body: [
-    "A prediction game I built for my friends. Someone asks a question, everyone makes a call before the deadline, and Crow keeps score. About 15 of us play it every week on Premier League, Champions League, IPL and World Cup matches.",
-    "I built all of it on my own, from the first sketch to the server it runs on. It fills in fixtures and results by itself, reminds everyone before picks close, and works like an app once you add it to your phone.",
+    "A prediction game for friend groups. Someone asks a question, everyone makes a call before the deadline, and Crow keeps score across a season. My friends and I play it every week on Premier League, Champions League, IPL and World Cup matches.",
+    "I designed and built all of it: the product and UI, the app, the database and the server it runs on. Fixtures and results arrive on their own, players get reminders before picks close, and it installs on a phone like a native app.",
   ],
   // Shown only when someone opens "How it's built".
   technical:
-    "Every game rule lives in Postgres, behind row-level security and RPC functions, so the app talks to the database directly and there's no API server to look after. Scheduled jobs sync fixtures and live results within the data provider's rate limit, and send reminders as Web Push notifications. GitHub Actions tests and deploys it to a DigitalOcean server.",
-  stack: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "nginx", "GitHub Actions"],
+    "The browser talks to Postgres directly, so the database enforces every rule: writes go through RPC functions that check membership, deadlines and balances, and row-level security limits what each player can read. Scheduled jobs sync fixtures and live results, fetching each match once for every room that follows it to stay within the provider's rate limit, and send Web Push notifications. Every change runs type checks, linting and 34 SQL test files in CI, and tagged releases deploy to a DigitalOcean server.",
+  stack: ["React", "TypeScript", "Supabase", "PostgreSQL", "pg_cron", "PWA", "nginx", "GitHub Actions"],
 };
 
 export type Job = {
