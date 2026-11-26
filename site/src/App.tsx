@@ -98,14 +98,23 @@ export function App() {
           </div>
         </section>
 
-        <Section id="work" title="Problems I've worked on" note="Open one for the story.">
+        <Section id="work" title="Selected work" note="Open one for the problem, my approach and the result.">
           <Problems items={problems} />
         </Section>
 
-        <Section id="crow" title="Something I made for fun">
+        <Section id="crow" title="Side project">
           <article className="grid gap-8 rounded-[var(--radius-widget)] bg-tile p-6 md:grid-cols-[1fr_15rem] md:p-8">
             <div className="flex flex-col gap-4">
               <h3 className="font-dot text-4xl font-extrabold">{crow.title}</h3>
+              <ul className="flex flex-wrap gap-2 text-sm">
+                {crow.facts.map((fact, i) => (
+                  <li key={fact} className="inline-flex items-center gap-2 rounded-full bg-tile-raised px-3 py-1.5">
+                    {/* Red means live: only the first fact gets the dot. */}
+                    {i === 0 && <span aria-hidden className="size-2 rounded-full bg-kurta" />}
+                    {fact}
+                  </li>
+                ))}
+              </ul>
               {crow.body.map((p) => (
                 <p key={p.slice(0, 20)} className="max-w-[58ch] leading-relaxed text-fg/85">
                   {p}
